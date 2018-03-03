@@ -49,6 +49,11 @@ public class FRequest extends AppCompatActivity implements OnMapReadyCallback{
     @Override
     public void onMapReady(final GoogleMap googleMap) {
 
+        googleMap.getUiSettings().setCompassEnabled(true);
+        googleMap.getUiSettings().setAllGesturesEnabled(true);
+        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
+
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

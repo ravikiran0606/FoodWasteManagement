@@ -21,6 +21,7 @@ public class Donations {
         this.type_food = type_food;
         this.num_people = num_people;
         this.expiry_time = expiry_time;
+        requests = new ArrayList<>();
     }
 
     public String getExpiry_time() {
