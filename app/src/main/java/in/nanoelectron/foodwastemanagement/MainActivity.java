@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity
         recyclerViewRequests = (RecyclerView) findViewById(R.id.recycler_view_requests);
 
 
-        rAdapter = new RequestsAdapter(requestsList);
-        dAdapter = new DonationsAdapter(donationsList);
+        rAdapter = new RequestsAdapter(getApplicationContext(),requestsList);
+        dAdapter = new DonationsAdapter(getApplicationContext(),donationsList);
 
         final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -239,10 +239,12 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this,Donate.class);
             startActivity(intent);
 
+
         } else if (id == R.id.nav_request) {
 
             Intent intent  =  new Intent(this,FRequest.class);
             startActivity(intent);
+
 
         }
 

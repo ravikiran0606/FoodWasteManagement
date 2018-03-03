@@ -1,5 +1,7 @@
 package in.nanoelectron.foodwastemanagement;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +17,12 @@ import java.util.ArrayList;
 public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.MyViewHolder> {
 
     private ArrayList<Requests> requestsList;
+    private View itemView;
+    private Context context;
 
-    public RequestsAdapter(ArrayList<Requests> requestsList) {
+    public RequestsAdapter(Context context,ArrayList<Requests> requestsList)
+    {
+        this.context = context;
         this.requestsList = requestsList;
     }
 
@@ -34,19 +40,32 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.MyView
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
+         itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.requests_list_row, parent, false);
 
         return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         Requests request = requestsList.get(position);
         holder.email.setText(request.getEmail());
         holder.num_people.setText(request.getNum_people()+"");
         holder.donar.setText(request.getDonor());
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = requestsList.get(position).getEmail();
+                Intent intent = new Intent(context,DisplayDonor.class);
+                intent.putExtra("email",email);
+                context.startActivity(intent);
+            }
+        });
+
+
     }
+
 
     @Override
     public int getItemCount() {

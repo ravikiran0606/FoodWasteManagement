@@ -4,17 +4,16 @@ import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +39,9 @@ public class Donate extends AppCompatActivity {
     private PlaceAutocompleteFragment autocompleteFragment;
     private String TAG = "hel";
     private String placeName;
+    private double Lattitude;
+    private double Longitude;
+    private LatLng latLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,12 @@ public class Donate extends AppCompatActivity {
                 // TODO: Get info about the selected place.
                 Log.i(TAG, "Place: " + place.getName());
                 placeName = (String) place.getName();
+                latLng = place.getLatLng();
+                Lattitude = latLng.latitude;
+                Longitude = latLng.longitude;
+
+
+
 
             }
 
@@ -99,11 +107,13 @@ public class Donate extends AppCompatActivity {
         databaseReference =  FirebaseDatabase.getInstance().getReference("donations").child(email).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("type", String.valueOf(dataSnapshot.child("type_food").getValue()));
+                if(String.valueOf(dataSnapshot.child("type_food").getValue()) != "null" ) {
 
-                type.setText(dataSnapshot.child("type_food").getValue().toString());
-                num_people.setText(dataSnapshot.child("num_people").getValue().toString());
-                expiry_time.setText(dataSnapshot.child("expiry_time").getValue().toString());
-
+                    type.setText(dataSnapshot.child("type_food").getValue().toString());
+                    num_people.setText(dataSnapshot.child("num_people").getValue().toString());
+                    expiry_time.setText(dataSnapshot.child("expiry_time").getValue().toString());
+                }
                 progressDialog.dismiss();
 
             }
@@ -132,7 +142,11 @@ public class Donate extends AppCompatActivity {
                 }
 
                 mDatabase.child("profile").child(email).child("location").child("name").setValue(placeName);
+                mDatabase.child("profile").child(email).child("location").child("lat").setValue(Lattitude);
+
+                mDatabase.child("profile").child(email).child("location").child("lon").setValue(Longitude);
                 mDatabase.child("donations").child(email).child("email").setValue(email);
+
                 mDatabase.child("donations").child(email).child("type_food").setValue(type.getText().toString());
                 mDatabase.child("donations").child(email).child("num_people").setValue(Integer.parseInt(num_people.getText().toString()));
                 mDatabase.child("donations").child(email).child("expiry_time").setValue(expiry_time.getText().toString());

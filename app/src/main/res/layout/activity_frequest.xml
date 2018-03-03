@@ -38,7 +38,17 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_frequest" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_requests"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+
+
 
 
 </android.support.design.widget.CoordinatorLayout>
