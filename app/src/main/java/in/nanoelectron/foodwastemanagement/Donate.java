@@ -1,16 +1,25 @@
 package in.nanoelectron.foodwastemanagement;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,31 +32,98 @@ public class Donate extends AppCompatActivity {
     private Button btn;
     private Date mtime;
     private SimpleDateFormat sdf;
+    private ProgressDialog progressDialog;
 
     private DatabaseReference mDatabase;
+    private ValueEventListener databaseReference;
+    private DatabaseReference placesdatabaseReference;
+    private PlaceAutocompleteFragment autocompleteFragment;
+    private String TAG = "hel";
+    private String placeName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donate);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle("loading");
+        progressDialog.show();
+
 
         sdf = new SimpleDateFormat("HH:mm");
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
         final SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-        e_time = (EditText) findViewById(R.id.duration);
+        final String email=pref.getString("name", null);
+
         type = (EditText) findViewById(R.id.type_of_food);
         num_people = (EditText) findViewById(R.id.num_people);
         expiry_time = (EditText) findViewById(R.id.duration);
         btn = (Button) findViewById(R.id.btn_donate);
 
-        SetTime time = new SetTime(e_time,this);
+        SetTime time = new SetTime(expiry_time,this);
+
+        final PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                // TODO: Get info about the selected place.
+                Log.i(TAG, "Place: " + place.getName());
+                placeName = (String) place.getName();
+
+            }
+
+            @Override
+            public void onError(Status status) {
+                // TODO: Handle the error.
+                Log.i(TAG, "An error occurred: " + status);
+            }
+        });
+
+        placesdatabaseReference = FirebaseDatabase.getInstance().getReference("profile");
+        placesdatabaseReference.child(email).child("location").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                    autocompleteFragment.setText((CharSequence) dataSnapshot.child("name").getValue());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        databaseReference =  FirebaseDatabase.getInstance().getReference("donations").child(email).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                type.setText(dataSnapshot.child("type_food").getValue().toString());
+                num_people.setText(dataSnapshot.child("num_people").getValue().toString());
+                expiry_time.setText(dataSnapshot.child("expiry_time").getValue().toString());
+
+                progressDialog.dismiss();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
+
 
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email=pref.getString("name", null);
                 try{
                     mtime = sdf.parse(expiry_time.getText().toString());
                 }
@@ -55,6 +131,7 @@ public class Donate extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+                mDatabase.child("profile").child(email).child("location").child("name").setValue(placeName);
                 mDatabase.child("donations").child(email).child("email").setValue(email);
                 mDatabase.child("donations").child(email).child("type_food").setValue(type.getText().toString());
                 mDatabase.child("donations").child(email).child("num_people").setValue(Integer.parseInt(num_people.getText().toString()));

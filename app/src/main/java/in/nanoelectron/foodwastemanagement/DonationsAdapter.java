@@ -46,6 +46,7 @@ public class DonationsAdapter extends RecyclerView.Adapter<DonationsAdapter.MyVi
         holder.email.setText(donation.getEmail());
         holder.num_people.setText(donation.getNum_people()+"");
         holder.expiry_time.setText(donation.getExpiry_time().toString());
+
     }
 
     @Override
