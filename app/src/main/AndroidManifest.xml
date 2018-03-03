@@ -13,8 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDaOjx9zjd7QkKFtJiFwUkr3pEvjacPs2c" />
@@ -31,7 +29,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Donate" />
         <activity android:name=".Request" />
         <activity android:name=".Login">
@@ -44,7 +42,8 @@
         <activity
             android:name=".FRequest"
             android:label="@string/title_activity_frequest"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".DisplayUser"></activity>
     </application>
 
 </manifest>

@@ -24,7 +24,7 @@ public class Donate extends AppCompatActivity {
     private Date mtime;
     private SimpleDateFormat sdf;
 
-    private DatabaseReference mDatabase,mRef;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,8 @@ public class Donate extends AppCompatActivity {
         btn = (Button) findViewById(R.id.btn_donate);
 
         SetTime time = new SetTime(e_time,this);
+
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,9 +54,11 @@ public class Donate extends AppCompatActivity {
                 catch (ParseException e){
                     e.printStackTrace();
                 }
-                Donations d = new Donations(email,type.getText().toString(),Integer.parseInt(num_people.getText().toString()),mtime);
-                mRef = mDatabase.child("donations").child(email);
-                mRef.setValue(d);
+
+                mDatabase.child("donations").child(email).child("email").setValue(email);
+                mDatabase.child("donations").child(email).child("type_food").setValue(type.getText().toString());
+                mDatabase.child("donations").child(email).child("num_people").setValue(Integer.parseInt(num_people.getText().toString()));
+                mDatabase.child("donations").child(email).child("expiry_time").setValue(expiry_time.getText().toString());
             }
         });
     }
