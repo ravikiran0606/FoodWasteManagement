@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_request) {
 
-            Intent intent  =  new Intent(this,Request.class);
+            Intent intent  =  new Intent(this,FRequest.class);
             startActivity(intent);
 
         }
