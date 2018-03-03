@@ -1,0 +1,107 @@
+{
+  "project_info": {
+    "project_number": "569466761445",
+    "firebase_url": "https://foodwaste-178da.firebaseio.com",
+    "project_id": "foodwaste-178da",
+    "storage_bucket": "foodwaste-178da.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:569466761445:android:8dfc9a70311f58cd",
+        "android_client_info": {
+          "package_name": "in.nanoelectron.testing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "569466761445-eouibgm74c6tri4vouo1ejralf6pis28.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.nanoelectron.testing",
+            "certificate_hash": "8833bfba1f8ff4cd1dde91fbeba6953c5e8c4583"
+          }
+        },
+        {
+          "client_id": "569466761445-33cnkqpv3jncm5bfafdaujh0bgfcf7rp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1nZYeniJnbRvpJcC6ZvrdAqYEzjR6raU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "569466761445-33cnkqpv3jncm5bfafdaujh0bgfcf7rp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:569466761445:android:a8e6ef2ef17e1cfe",
+        "android_client_info": {
+          "package_name": "in.nanoelectron.foodwastemanagement"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "569466761445-bi5fs63osuo7ve3cprhtarf9m0pslrcf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.nanoelectron.foodwastemanagement",
+            "certificate_hash": "8833bfba1f8ff4cd1dde91fbeba6953c5e8c4583"
+          }
+        },
+        {
+          "client_id": "569466761445-pvd4rnp0khlumj8rv7p22s4dne000iin.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.nanoelectron.foodwastemanagement",
+            "certificate_hash": "3f06d032c90c3a57cf11fbf2ec215fef4a9d41a6"
+          }
+        },
+        {
+          "client_id": "569466761445-33cnkqpv3jncm5bfafdaujh0bgfcf7rp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1nZYeniJnbRvpJcC6ZvrdAqYEzjR6raU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "569466761445-33cnkqpv3jncm5bfafdaujh0bgfcf7rp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
