@@ -43,7 +43,11 @@
             android:name=".FRequest"
             android:label="@string/title_activity_frequest"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".DisplayUser"></activity>
+        <activity android:name=".DisplayDonor" />
+        <activity
+            android:name=".DisplayAcceptor"
+            android:label="@string/title_activity_display_acceptor"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

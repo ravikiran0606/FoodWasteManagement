@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="in.nanoelectron.foodwastemanagement.DisplayDonor">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fitsSystemWindows="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:text="Name: "
+                android:id="@+id/d_name"
+                android:textSize="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="72dp"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:text="Phone Number: "
+                android:id="@+id/d_num"
+                android:textSize="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="72dp"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:text="Address : "
+                android:id="@+id/d_addr"
+                android:textSize="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="72dp"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:text="Website : "
+                android:id="@+id/d_web"
+                android:textSize="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="72dp"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:text="Credit Score : "
+                android:id="@+id/d_credit"
+                android:textSize="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="72dp"
+                android:layout_marginBottom="12dp" />
+
+            <ImageView
+                android:id="@+id/d_auth"
+                android:layout_width="wrap_content"
+                android:layout_height="72dp"
+                android:layout_marginBottom="12dp"
+                android:layout_gravity="center_horizontal" />
+
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/d_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:padding="12dp"
+                android:text="Accept"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</android.support.constraint.ConstraintLayout>
