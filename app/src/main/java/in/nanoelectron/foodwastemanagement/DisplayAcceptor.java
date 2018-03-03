@@ -1,6 +1,7 @@
 package in.nanoelectron.foodwastemanagement;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,7 +24,8 @@ public class DisplayAcceptor extends AppCompatActivity {
     private DatabaseReference mRef;
     private TextView dname,dnum,daddr,dweb,dcredit;
     private ImageView dauth;
-    private Button accept;
+    private Button request;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +34,18 @@ public class DisplayAcceptor extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        final String user = pref.getString("name", null);
+
+        databaseReference  = FirebaseDatabase.getInstance().getReference();
+
         dname = (TextView) findViewById(R.id.a_name);
         dnum = (TextView) findViewById(R.id.a_num);
         daddr = (TextView) findViewById(R.id.a_addr);
         dweb = (TextView) findViewById(R.id.a_web);
         dcredit = (TextView) findViewById(R.id.a_credit);
         dauth = (ImageView) findViewById(R.id.a_auth);
-        accept = (Button) findViewById(R.id.a_btn);
+        request = (Button) findViewById(R.id.a_btn);
 
         Intent intent = getIntent();
         email = intent.getExtras().getString("email");
@@ -60,9 +67,17 @@ public class DisplayAcceptor extends AppCompatActivity {
             }
         });
 
-        accept.setOnClickListener(new View.OnClickListener() {
+        request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                databaseReference.child("donations").child(email).child("requests_by").child(user).setValue(dnum);
+                databaseReference.child("requests").child(user).child("requests_to").child(email).setValue(dnum);
+
+
+
+
+
 
             }
         });
