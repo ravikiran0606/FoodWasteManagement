@@ -28,14 +28,6 @@ public class DonationsAdapter extends RecyclerView.Adapter<DonationsAdapter.MyVi
         }
     }
 
-    public void addDonation(Donations d){
-        donationsList.add(d);
-    }
-
-    public DonationsAdapter(){
-        donationsList = new ArrayList<Donations>();
-    }
-
     public DonationsAdapter(ArrayList<Donations> donationsList) {
         this.donationsList = donationsList;
     }
@@ -52,7 +44,7 @@ public class DonationsAdapter extends RecyclerView.Adapter<DonationsAdapter.MyVi
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Donations donation = donationsList.get(position);
         holder.email.setText(donation.getEmail());
-        holder.num_people.setText(donation.getNum_people());
+        holder.num_people.setText(donation.getNum_people()+"");
         holder.expiry_time.setText(donation.getExpiry_time());
     }
 

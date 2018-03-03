@@ -19,11 +19,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private ArrayList<Donations> donationsList = new ArrayList<>();
     private static final String MY_PREFS_NAME = "username";
     private RecyclerView recyclerViewDonations;
     private DonationsAdapter dAdapter;
@@ -52,17 +54,18 @@ public class MainActivity extends AppCompatActivity
 
         recyclerViewDonations = (RecyclerView) findViewById(R.id.recycler_view_donations);
 
-        dAdapter = new DonationsAdapter();
-
-        Date now = new Date();
-        Donations d = new Donations("ravi","Dinner",105,now);
-        dAdapter.addDonation(d);
+        dAdapter = new DonationsAdapter(donationsList);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewDonations.setLayoutManager(mLayoutManager);
         recyclerViewDonations.setItemAnimator(new DefaultItemAnimator());
         recyclerViewDonations.setAdapter(dAdapter);
 
+        Date now = new Date();
+        Donations d = new Donations("ravi","Dinner",105,now);
+        donationsList.add(d);
+
+        dAdapter.notifyDataSetChanged();
     }
 
     @Override
