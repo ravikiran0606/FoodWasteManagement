@@ -1,9 +1,6 @@
 package in.nanoelectron.foodwastemanagement;
 
 
-import android.text.format.Time;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -29,8 +26,8 @@ public class Donations {
         requests = new ArrayList<>();
     }
 
-    public String getExpiry_time() {
-        return expiry_time.toString();
+    public Date getExpiry_time() {
+        return expiry_time;
     }
 
     public void setExpiry_time(Date expiry_time) {

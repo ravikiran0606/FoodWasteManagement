@@ -21,13 +21,13 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView email,num_people,waiting_time;
+        public TextView email,num_people,donar;
 
         public MyViewHolder(View view) {
             super(view);
             email = (TextView) view.findViewById(R.id.req_org_name);
             num_people = (TextView) view.findViewById(R.id.req_no_people);
-            waiting_time = (TextView) view.findViewById(R.id.waiting_time);
+            donar = (TextView) view.findViewById(R.id.donar_status);
         }
     }
 
@@ -44,8 +44,8 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.MyView
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Requests request = requestsList.get(position);
         holder.email.setText(request.getEmail());
-        holder.num_people.setText(request.getNum_people());
-        holder.waiting_time.setText(request.getWaiting_time());
+        holder.num_people.setText(request.getNum_people()+"");
+        holder.donar.setText(request.getDonor());
     }
 
     @Override

@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
         adatabaseReference = FirebaseDatabase.getInstance().getReference("requests");
-        rdatabaseReference  =FirebaseDatabase.getInstance().getReference();
+        rdatabaseReference  =FirebaseDatabase.getInstance().getReference("donations");
 
         String email=pref.getString("name", null);         // getting String
 
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity
         rAdapter = new RequestsAdapter(requestsList);
         dAdapter = new DonationsAdapter(donationsList);
 
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
 
 
@@ -95,12 +95,53 @@ public class MainActivity extends AppCompatActivity
         recyclerViewRequests.setAdapter(rAdapter);
 
 
+        databaseReference.child("requests").child(email).child("requests_to").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                requestsList.clear();
+
+                for (final DataSnapshot requests_pending: dataSnapshot.getChildren()){
+                    rdatabaseReference.child(requests_pending.getKey()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            String email = (String) dataSnapshot.child("email").getValue();
+                            String donar = (String) dataSnapshot.child("donar").getValue();
+                            if(donar == null)
+                            {
+                                donar = "pending";
+                            }
+                            Object people = dataSnapshot.child("num_people").getValue();
+                            int peop = Integer.parseInt(String.valueOf(people));
+                            Requests r = new Requests(email,donar,peop);
+                            requestsList.add(r);
+                            rAdapter.notifyDataSetChanged();
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
 
 
         databaseReference.child("donations").child(email).child("requests_by").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+                donationsList.clear();
 
 
                 /* Date now = new Date();
@@ -120,6 +161,7 @@ public class MainActivity extends AppCompatActivity
                             String waiting_time = (String) dataSnapshot.child("waiting_time").getValue();
                             try {
                                  mtime = sdf.parse(waiting_time);
+                                 Log.d("stringtest", String.valueOf(mtime));
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }

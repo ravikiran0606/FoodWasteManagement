@@ -34,7 +34,7 @@
             android:text="Hello"/>
 
         <TextView
-            android:id="@+id/waiting_time"
+            android:id="@+id/donar_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
