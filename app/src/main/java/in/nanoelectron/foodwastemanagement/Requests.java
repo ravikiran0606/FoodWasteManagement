@@ -1,5 +1,6 @@
 package in.nanoelectron.foodwastemanagement;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -10,6 +11,8 @@ public class Requests {
     private  String email,donor;
     private  int num_people;
     private Date waiting_time;
+    private ArrayList<String> donors;
+
 
     public Requests(){
 
@@ -19,6 +22,7 @@ public class Requests {
         this.email = email;
         this.donor = donor;
         this.num_people = num_people;
+        donors = new ArrayList<>();
     }
 
     public String getWaiting_time() {

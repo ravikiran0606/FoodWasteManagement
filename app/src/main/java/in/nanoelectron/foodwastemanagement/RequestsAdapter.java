@@ -16,6 +16,10 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.MyView
 
     private ArrayList<Requests> requestsList;
 
+    public RequestsAdapter(ArrayList<Requests> requestsList) {
+        this.requestsList = requestsList;
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView email,num_people,waiting_time;
 

@@ -1,8 +1,10 @@
 package in.nanoelectron.foodwastemanagement;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -19,6 +21,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -26,14 +36,22 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ArrayList<Donations> donationsList = new ArrayList<>();
+    private ArrayList<Requests> requestsList = new ArrayList<>();
     private static final String MY_PREFS_NAME = "username";
-    private RecyclerView recyclerViewDonations;
+    private RecyclerView recyclerViewDonations,recyclerViewRequests;
     private DonationsAdapter dAdapter;
-
+    private RequestsAdapter rAdapter;
+    private DatabaseReference databaseReference,adatabaseReference,rdatabaseReference;
+    private SimpleDateFormat sdf;
+    private Date mtime;
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        sdf = new SimpleDateFormat("HH:mm");
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -50,22 +68,89 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        adatabaseReference = FirebaseDatabase.getInstance().getReference("requests");
+        rdatabaseReference  =FirebaseDatabase.getInstance().getReference();
+
         String email=pref.getString("name", null);         // getting String
 
         recyclerViewDonations = (RecyclerView) findViewById(R.id.recycler_view_donations);
+        recyclerViewRequests = (RecyclerView) findViewById(R.id.recycler_view_requests);
 
+
+        rAdapter = new RequestsAdapter(requestsList);
         dAdapter = new DonationsAdapter(donationsList);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+
+
         recyclerViewDonations.setLayoutManager(mLayoutManager);
+        recyclerViewRequests.setLayoutManager(layoutManager);
+
         recyclerViewDonations.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewRequests.setItemAnimator(new DefaultItemAnimator());
+
         recyclerViewDonations.setAdapter(dAdapter);
+        recyclerViewRequests.setAdapter(rAdapter);
 
-        Date now = new Date();
-        Donations d = new Donations("ravi","Dinner",105,now);
-        donationsList.add(d);
 
-        dAdapter.notifyDataSetChanged();
+
+
+
+        databaseReference.child("donations").child(email).child("requests_by").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                /* Date now = new Date();
+                  Donations d = new Donations("ravi","Dinner",105,now);
+                  donationsList.add(d);*/
+
+                for (final DataSnapshot accept_pendings: dataSnapshot.getChildren()){
+                    Log.d("something",accept_pendings.getKey());
+                    adatabaseReference.child(accept_pendings.getKey()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            Log.d("something2", String.valueOf(dataSnapshot.child("email").getValue()));
+
+                            String email = (String) dataSnapshot.child("email").getValue();
+                            String type = (String) dataSnapshot.child("type").getValue();
+                            String waiting_time = (String) dataSnapshot.child("waiting_time").getValue();
+                            try {
+                                 mtime = sdf.parse(waiting_time);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            int number =  Integer.parseInt(String.valueOf(dataSnapshot.child("number").getValue()));
+
+
+                            Donations d = new Donations(email,type,number,mtime);
+                            donationsList.add(d);
+                            dAdapter.notifyDataSetChanged();
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
     }
 
     @Override

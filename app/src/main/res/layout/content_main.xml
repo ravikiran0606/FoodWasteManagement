@@ -1,29 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<RelativeLayout
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="in.nanoelectron.foodwastemanagement.MainActivity"
-    tools:showIn="@layout/app_bar_main">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent">
+
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World"
+        android:text="Accepts Pending"
+        android:layout_marginTop="60dp"
         android:textSize="25dp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="53dp" />
+        android:padding="10dp"
+        android:id="@+id/accepts_pending"/>
+
+
 
     <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/accepts_pending"
         android:id="@+id/recycler_view_donations"
+        android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
-        android:layout_height="209dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content"
 
-</android.support.constraint.ConstraintLayout>
+         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/recycler_view_donations"
+        android:text="Requests Pending"
+        android:textSize="25dp"
+        android:padding="10dp"
+        android:id="@+id/requests_pending"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/requests_pending"
+        android:id="@+id/recycler_view_requests"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        />
+
+
+
+</RelativeLayout>
