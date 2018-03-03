@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -16,12 +19,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String MY_PREFS_NAME = "username";
-
-
+    private RecyclerView recyclerViewDonations;
+    private DonationsAdapter dAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +50,18 @@ public class MainActivity extends AppCompatActivity
 
         String email=pref.getString("name", null);         // getting String
 
-        if(email!= null) {
-            Log.d("myemail",email );
-        }
+        recyclerViewDonations = (RecyclerView) findViewById(R.id.recycler_view_donations);
+
+        dAdapter = new DonationsAdapter();
+
+        Date now = new Date();
+        Donations d = new Donations("ravi","Dinner",105,now);
+        dAdapter.addDonation(d);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerViewDonations.setLayoutManager(mLayoutManager);
+        recyclerViewDonations.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewDonations.setAdapter(dAdapter);
 
     }
 

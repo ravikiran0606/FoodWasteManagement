@@ -8,8 +8,16 @@
     tools:context="in.nanoelectron.foodwastemanagement.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hello World"
+        android:textSize="25dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="53dp" />
+
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        android:id="@+id/recycler_view_donations"
         android:layout_width="match_parent"
         android:layout_height="209dp"
         android:layout_marginBottom="8dp"

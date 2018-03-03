@@ -1,6 +1,7 @@
 package in.nanoelectron.foodwastemanagement;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,15 @@ public class DonationsAdapter extends RecyclerView.Adapter<DonationsAdapter.MyVi
         }
     }
 
-    public void setDonationsList(ArrayList<Donations> donationsList) {
+    public void addDonation(Donations d){
+        donationsList.add(d);
+    }
+
+    public DonationsAdapter(){
+        donationsList = new ArrayList<Donations>();
+    }
+
+    public DonationsAdapter(ArrayList<Donations> donationsList) {
         this.donationsList = donationsList;
     }
 
