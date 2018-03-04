@@ -72,8 +72,11 @@ public class MainActivity extends AppCompatActivity
         adatabaseReference = FirebaseDatabase.getInstance().getReference("requests");
         rdatabaseReference  =FirebaseDatabase.getInstance().getReference("donations");
 
-        String email=pref.getString("name", null);         // getting String
+        String email=pref.getString("name", null);
+        // getting String
+        String token = pref.getString("token",null);
 
+        databaseReference.child("profile").child(email).child("token").setValue(token);
         recyclerViewDonations = (RecyclerView) findViewById(R.id.recycler_view_donations);
         recyclerViewRequests = (RecyclerView) findViewById(R.id.recycler_view_requests);
 
@@ -105,16 +108,22 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             String email = (String) dataSnapshot.child("email").getValue();
-                            String donar = (String) dataSnapshot.child("donar").getValue();
-                            if(donar == null)
-                            {
-                                donar = "pending";
+                            String type = (String) dataSnapshot.child("type").getValue();
+                            String waiting_time = (String) dataSnapshot.child("expiry_time").getValue();
+                            try {
+                                mtime = sdf.parse(waiting_time);
+                                Log.d("stringtest", String.valueOf(mtime));
+                            } catch (ParseException e) {
+                                e.printStackTrace();
                             }
-                            Object people = dataSnapshot.child("num_people").getValue();
-                            int peop = Integer.parseInt(String.valueOf(people));
-                            Requests r = new Requests(email,donar,peop);
-                            requestsList.add(r);
-                            rAdapter.notifyDataSetChanged();
+                            int number =  Integer.parseInt(String.valueOf(dataSnapshot.child("num_people").getValue()));
+
+
+                            Donations d = new Donations(email,type,number,mtime);
+                            donationsList.add(d);
+                            dAdapter.notifyDataSetChanged();
+
+
 
 
                         }
@@ -157,20 +166,16 @@ public class MainActivity extends AppCompatActivity
                             Log.d("something2", String.valueOf(dataSnapshot.child("email").getValue()));
 
                             String email = (String) dataSnapshot.child("email").getValue();
-                            String type = (String) dataSnapshot.child("type").getValue();
-                            String waiting_time = (String) dataSnapshot.child("waiting_time").getValue();
-                            try {
-                                 mtime = sdf.parse(waiting_time);
-                                 Log.d("stringtest", String.valueOf(mtime));
-                            } catch (ParseException e) {
-                                e.printStackTrace();
+                            String donar = (String) dataSnapshot.child("donar").getValue();
+                            if(donar == null)
+                            {
+                                donar = "pending";
                             }
-                            int number =  Integer.parseInt(String.valueOf(dataSnapshot.child("number").getValue()));
-
-
-                            Donations d = new Donations(email,type,number,mtime);
-                            donationsList.add(d);
-                            dAdapter.notifyDataSetChanged();
+                            Object people = dataSnapshot.child("num_people").getValue();
+                            int peop = Integer.parseInt(String.valueOf(people));
+                            Requests r = new Requests(email,donar,peop);
+                            requestsList.add(r);
+                            rAdapter.notifyDataSetChanged();
 
                         }
 
@@ -197,12 +202,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
+        
             super.onBackPressed();
-        }
+
     }
 
     @Override
